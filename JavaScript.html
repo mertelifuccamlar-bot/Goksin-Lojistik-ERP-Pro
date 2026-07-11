@@ -1,1 +1,61 @@
+function plakaEkle(plaka){
 
+  plaka=plaka.toUpperCase().trim();
+
+  const ss=SpreadsheetApp.getActiveSpreadsheet();
+
+  let sh=ss.getSheetByName("Filo_Araclar");
+
+  if(!sh){
+
+    sh=ss.insertSheet("Filo_Araclar");
+
+    sh.appendRow(["ID","PLAKA"]);
+
+  }
+
+  const data=sh.getDataRange().getValues();
+
+  for(let i=1;i<data.length;i++){
+
+    if(data[i][1].toString().toUpperCase()==plaka){
+
+      return "PLAKA VAR";
+
+    }
+
+  }
+
+  sh.appendRow(["CAR-"+Utilities.getUuid().substring(0,8),plaka]);
+
+  return "KAYIT BAŞARILI";
+
+}
+
+
+
+function plakaSil(plaka){
+
+  plaka=plaka.toUpperCase().trim();
+
+  const sh=SpreadsheetApp
+  .getActiveSpreadsheet()
+  .getSheetByName("Filo_Araclar");
+
+  const data=sh.getDataRange().getValues();
+
+  for(let i=data.length-1;i>=1;i--){
+
+    if(data[i][1].toString().toUpperCase()==plaka){
+
+      sh.deleteRow(i+1);
+
+      return "SİLİNDİ";
+
+    }
+
+  }
+
+  return "BULUNAMADI";
+
+}
